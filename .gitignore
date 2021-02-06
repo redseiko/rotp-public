@@ -1,6 +1,8 @@
 dist
 nbproject
 test
-build
 build.xml
 manifest.mf
+
+# Ignore Bazel
+bazel-*

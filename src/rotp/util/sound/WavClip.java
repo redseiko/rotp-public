@@ -25,9 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import rotp.Rotp;
+import rotp.ResourceManager;
 
-public class WavClip  implements SoundClip, Base {
+public class WavClip implements SoundClip, Base {
     static HashMap<String, WavClip> loadedClips = new HashMap<>();
     Clip clip;
     boolean loaded = false;
@@ -137,15 +137,18 @@ public class WavClip  implements SoundClip, Base {
         position = clip.getFramePosition();
         clip.stop();
     }
-    public static InputStream wavFileStream(String n) {
-        String fullString = "../rotp/" +n;
 
-        try { return new FileInputStream(new File(Rotp.jarPath(), n)); } 
-        catch (FileNotFoundException e) {
-                try { return new FileInputStream(fullString); } 
-                catch (FileNotFoundException ex) {
-                    return Rotp.class.getResourceAsStream(n);
-                }
+    public static InputStream wavFileStream(String n) {
+      String fullString = "../rotp/" + n;
+
+      try {
+        return new FileInputStream(new File(ResourceManager.getJarPath(), n));
+      } catch (FileNotFoundException e) {
+        try {
+          return new FileInputStream(fullString);
+        } catch (FileNotFoundException ex) {
+          return ResourceManager.class.getResourceAsStream(n);
         }
+      }
     }
 }

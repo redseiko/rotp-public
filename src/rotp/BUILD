@@ -15,11 +15,12 @@ java_library(
         "lang/**",
         "races/**",
     ]),
+    runtime_deps = ["@maven//:com_google_flogger_flogger_system_backend"],
     deps = [":resource_manager"],
 )
 
 java_library(
     name = "resource_manager",
     srcs = ["ResourceManager.java"],
-    deps = [],
+    deps = ["@maven//:com_google_flogger_flogger"],
 )

@@ -1,9 +1,11 @@
 package rotp;
 
+import com.google.common.flogger.FluentLogger;
 import java.io.File;
 import java.net.URISyntaxException;
 
 public class ResourceManager {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static String path;
 
   private ResourceManager() {}
@@ -11,16 +13,18 @@ public class ResourceManager {
   public static String getJarPath() {
     if (path == null) {
       try {
-        File jarFile = new File(
-            ResourceManager.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation()
-                .toURI()
-                .getPath());
+        File jarFile =
+            new File(
+                ResourceManager.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+                    .getPath());
+
         path = jarFile.getParentFile().getPath();
       } catch (URISyntaxException ex) {
-        System.out.println("Unable to resolve jar path: " + ex.toString());
+        logger.atSevere().withCause(ex).log("Unable to resolve jar path.");
         path = ".";
       }
     }
